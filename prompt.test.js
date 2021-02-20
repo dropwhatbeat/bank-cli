@@ -1,6 +1,5 @@
-const prompt = require('./prompt');
+const functions = require('./loginClient');
 
-test('login as Alice', () => {
-    expect(prompt.loginClient(Alice)).toBe(Alice)
-}
-)
+test('login Alice', () => {
+    expect(functions.loginClient('Alice')).toEqual('Alice')
+})

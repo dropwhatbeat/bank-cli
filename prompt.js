@@ -25,7 +25,6 @@ function loginClient (client) {
                 console.log('Owing ' + -owe[client][user] + ' from ' + user + '.')
             }
         }
-
     } else {
         var obj = {[`${client}`]: 0}; //assuming new users are initalised with balance = 0
         var obj1 = {[`${client}`]: {}};
@@ -33,11 +32,10 @@ function loginClient (client) {
         Object.assign(owe,obj1)
         console.log('Create a new user')
         console.log(`Hello, ${client}!`)
-
     }
     current = client
+    return current
   }
-
 
   function splitCommand (value) {
       var c_list = value.split(" ");
@@ -47,7 +45,6 @@ function loginClient (client) {
 
   function topupClient (value) {
       v = value
-
       for (user in owe[current]) {
           if (owe[current][user] > 0) {
               if (v >= owe[current][user]) {
@@ -65,7 +62,6 @@ function loginClient (client) {
                    v -= v
                 }
           }
-
       }
       db[current] +=v
       console.log('Your balance is ' + db[current] + '.')
@@ -122,4 +118,7 @@ while (!exit) {
     }
 }
 
-module.exports = {loginClient, splitCommand, topupClient, payClient}
+module.exports.loginClient = loginClient;
+module.exports.splitCommand = splitCommand;
+module.exports.topupClient = topupClient;
+module.exports.payClient = payClient;
