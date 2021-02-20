@@ -1,0 +1,23 @@
+{
+  "name": "assignment",
+  "version": "1.0.0",
+  "description": "cli",
+  "main": "prompt.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dropwhatbeat/bank.git"
+  },
+  "author": "Deng Jing",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dropwhatbeat/bank/issues"
+  },
+  "homepage": "https://github.com/dropwhatbeat/bank#readme",
+  "dependencies": {
+    "jest": "^26.6.3",
+    "prompt-sync": "^4.2.0"
+  }
+}

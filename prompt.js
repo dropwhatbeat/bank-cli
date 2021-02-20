@@ -28,14 +28,7 @@ function loginClient (client) {
 
     } else {
         var obj = {[`${client}`]: 0}; //assuming new users are initalised with balance = 0
-        for (user in owe) {
-            Object.assign(owe[user], obj)
-        }
         var obj1 = {[`${client}`]: {}};
-        for (user in owe) {
-            var users = {[`${user}`]:0}
-            Object.assign(obj1[client], users)
-        }
         Object.assign(db, obj);
         Object.assign(owe,obj1)
         console.log('Create a new user')
@@ -43,8 +36,6 @@ function loginClient (client) {
 
     }
     current = client
-    // console.log(db)
-    // console.log(current)
   }
 
 
@@ -65,16 +56,13 @@ function loginClient (client) {
                   v -= owe[current][user]
                   owe[current][user] = 0
                   owe[user][current] = 0
-                  console.log(v)
                } else {
                    db[user] += v
-                   console.log(v)
                    console.log('Transferred ' + v + ' to ' + user)
                    owe[current][user] -= v
                    owe[user][current] += v
                    console.log('Owing ' + owe[current][user] + ' to ' + user)
                    v -= v
-                   console.log(v)
                 }
           }
 
@@ -84,36 +72,33 @@ function loginClient (client) {
   }
 
   function payClient(user, amount) {
-      if  (owe[current][user] == 0){
-        if ((db[current] - amount) >= 0) {
-            db[current]-=amount;
-            db[user]+=amount;
-            console.log('Transferred ' + amount + ' to ' + user)
+        if (db[current] >= amount) {
+            if (owe[user][current]>0){
+                owe[current][user] += amount;
+                owe[user][current] -= amount;
+                console.log('Owing ' + owe[user][current] + ' from ' + user)
+            } else {
+                db[current]-=amount;
+                db[user]+=amount;
+                console.log('Transferred ' + amount + ' to ' + user)
+            } 
             console.log('Your balance is ' + db[current] + '.')
         } else {
+            if (user in owe[current] == false){
+                var obj = {[`${user}`]: 0}
+                var obj1 = {[`${current}`]: 0}
+                Object.assign(owe[current], obj)
+                Object.assign(owe[user], obj1)
+            } 
             db[user]+=db[current];
             console.log('Transferred ' + db[current] + ' to ' + user)
             var diff = amount - db[current]
             owe[current][user] += diff
             owe[user][current] -= diff
             db[current]-=db[current];
-            console.log('Your balance is ' + db[current] + '.')
+            console.log('Your balance is 0')
             console.log('Owing ' + owe[current][user] + ' to ' + user)
         }
-      } else if (owe[current][user] < 0) {
-          if (amount + owe[current][user] <= 0) {
-              owe[current][user] += amount;
-              owe[user][current] -= amount;
-              console.log('Owing ' + -owe[current][user] + ' from ' + user)
-              console.log('Your balance is ' + db[current] + '.')
-          }
-
-      } else {
-          owe[current][user] += amount
-          owe[user][current] -= amount
-          console.log('Transferred 0 to ' + user)
-          console.log('Owing ' + owe[current][user] + ' to ' + user)
-      }
   }
 
 while (!exit) {
@@ -136,3 +121,5 @@ while (!exit) {
         exit = true
     }
 }
+
+module.exports = {loginClient, splitCommand, topupClient, payClient}
