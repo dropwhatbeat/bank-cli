@@ -1,14 +1,9 @@
 
-let  db = {
-    Alice: 0,
-    Bob: 0};
+const status = require('../status')
 
-let owe = {
-    Alice: {Bob: 0},
-    Bob: {Alice: 0}
-}
-
-current = " ";
+db = status.db;
+owe = status.owe;
+current = status.current;
 
 function loginClient (client) {
     if (db.hasOwnProperty(client)) {
@@ -30,7 +25,7 @@ function loginClient (client) {
         console.log(`Hello, ${client}!`)
     }
     current = client
-    return current
-  }
+    return [current, db];
+  };
 
 module.exports.loginClient = loginClient;

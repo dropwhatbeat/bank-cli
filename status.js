@@ -3,10 +3,10 @@ let  db = {
     Bob: 0};
 
 let owe = {
-    Alice: {Bob: 0},
-    Bob: {Alice: 0}
-}
+    Alice: {},
+    Bob: {}
+};
 
-current = " ";
+let current = " ";
 
-export {db, owe, current}
+module.exports = {db, owe, current};

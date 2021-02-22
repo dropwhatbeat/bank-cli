@@ -68,34 +68,39 @@ function loginClient (client) {
   }
 
   function payClient(user, amount) {
-        if (db[current] >= amount) {
-            if (owe[user][current]>0){
-                owe[current][user] += amount;
-                owe[user][current] -= amount;
-                console.log('Owing ' + owe[user][current] + ' from ' + user)
-            } else {
-                db[current]-=amount;
-                db[user]+=amount;
-                console.log('Transferred ' + amount + ' to ' + user)
-            } 
-            console.log('Your balance is ' + db[current] + '.')
+    if (user in owe[current] == true){
+        if (amount < owe[user][current]){
+            owe[current][user] += amount;
+            owe[user][current] -= amount;
+            console.log('Transferred ' + amount + ' to ' + user)
+            console.log('Owing ' + owe[user][current] + ' from ' + user)
         } else {
-            if (user in owe[current] == false){
-                var obj = {[`${user}`]: 0}
-                var obj1 = {[`${current}`]: 0}
-                Object.assign(owe[current], obj)
-                Object.assign(owe[user], obj1)
-            } 
-            db[user]+=db[current];
+            db[current] -=amount-owe[user][current];
+            db[user] +=amount-owe[user][current] 
+            delete owe[current].user;
+            delete owe[user].current;
+            console.log('Transferred ' + owe[user][current] + ' to ' + user)
+        }
+    } else {
+        if (db[current] >= amount) {
+            db[current] -=amount;
+            db[user] += amount;
+            console.log('Transferred ' + amount + ' to ' + user)
+        } else {
+            diff = amount - db[current]
+            db[user] += db[current];
+            db[current] -= db[current];
+            var obj = {[`${user}`]: diff}
+            var obj1 = {[`${current}`]: -diff}
+            Object.assign(owe[current], obj)
+            Object.assign(owe[user], obj1)
             console.log('Transferred ' + db[current] + ' to ' + user)
-            var diff = amount - db[current]
-            owe[current][user] += diff
-            owe[user][current] -= diff
-            db[current]-=db[current];
-            console.log('Your balance is 0')
             console.log('Owing ' + owe[current][user] + ' to ' + user)
         }
-  }
+    }
+    console.log('Your balance is ' + db[current] + '.')
+    return [db, owe]
+};
 
 while (!exit) {
     let input = prompt('>');
@@ -117,8 +122,3 @@ while (!exit) {
         exit = true
     }
 }
-
-module.exports.loginClient = loginClient;
-module.exports.splitCommand = splitCommand;
-module.exports.topupClient = topupClient;
-module.exports.payClient = payClient;
