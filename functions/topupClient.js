@@ -12,7 +12,6 @@ function topupClient (value) {
                 console.log('Transferred ' + owe[current][user] + ' to ' + user)
                 db[user] += owe[current][user]
                 v -= owe[current][user]
-                console.log(owe)
                 delete owe[current][user];
                 delete owe[user][current];
              } else {
