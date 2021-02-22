@@ -13,6 +13,7 @@ while (!exit) {
         func.loginClient (value1);
     } else if (mode == 'topup') {
         func.topupClient (Number(value1));
+        console.log (db, owe)
     } else if (mode == 'pay') {
         func.payClient (value1, Number(value2));
         console.log (db, owe)

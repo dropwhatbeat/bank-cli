@@ -25,7 +25,7 @@ function loginClient (client) {
         console.log(`Hello, ${client}!`)
     }
     current = client
-    return [current, db];
+    return [current, db, owe];
   };
 
 module.exports.loginClient = loginClient;

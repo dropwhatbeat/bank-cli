@@ -13,9 +13,10 @@ function payClient(user, amount) {
             console.log('Owing ' + owe[user][current] + ' from ' + user)
         } else {
             db[current] -=amount-owe[user][current];
-            db[user] +=amount-owe[user][current] 
-            delete owe[current].user;
-            delete owe[user].current;
+            db[user] +=amount-owe[user][current];
+            delete owe[current][user];
+            delete owe[user][current];
+            console.log(delete owe[current].user)
             console.log('Transferred ' + owe[user][current] + ' to ' + user)
         }
     } else {
