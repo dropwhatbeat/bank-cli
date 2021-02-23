@@ -2,7 +2,6 @@ const func = require('./functions/index');
 
 let exit = false;
 
-const runPrompt = () => {
     while (!exit) {
         let input = func.prompt('>');
         c_list = func.splitCommand(input);
@@ -14,15 +13,11 @@ const runPrompt = () => {
             func.loginClient (value1);
         } else if (mode == 'topup') {
             func.topupClient (Number(value1));
-            console.log (db, owe)
+            // console.log (db, owe)
         } else if (mode == 'pay') {
             func.payClient (value1, Number(value2));
-            console.log (db, owe)
+            // console.log (db, owe)
         } else if (mode == 'exit') {
             exit = true
         }
     }
-}
-
-runPrompt.call()
-module.exports.runPrompt = runPrompt;
